@@ -32,19 +32,44 @@ public class FirstTask {
             line = fileReader.readLine();
         }
 
-        //Проверка на правильный ввод данных
-        for (Table_Section t : tables)
-            System.out.println(t);
-        /*1 1 30000
-        2 1 12000
-        4 1 38000
+        for (Table_Section t : tables) {
+            t.calculate_section_salary();
+            System.out.println(t.getAverage_salary());
+        }
 
+        /**
+         * Данный цикл скорее всего должен быть реализован рекурсией тк после его закрытия
+         * появляются новые сотрудники для перевода в отделы тк средняя зарплата в отделах меняется
+         *
+         * Проверяемый отдел - i
+         * Отдел в который может быть помещен сотрудник - j
+         * Номер сотрудника в отделе - k
+         */
+        transfer: for (int i = 0; i < tables.size(); i++) {
+            for (int j = 0; j < tables.size(); j++) {
+                //Прооверка на тот же отдел
+                if (i == j)
+                    continue;
+                /**
+                 * Проверяем зарплату k-го сотрудника в i-ом отделе со средней зарплатой j-го отдела и со средней зарплатой i-го отдела
+                 * если меньше "j" или больше "i" идем дальше по сотрудникам и отделам
+                 * если больше переносим сотрудника в отдел
+                 */
+                for (int k = 0; k < tables.get(i).listPerson_Size(); k++) {
+                    if (tables.get(i).getPerson_from_List(k).getSalary() < tables.get(i).getAverage_salary() &&
+                            tables.get(i).getPerson_from_List(k).getSalary() > tables.get(j).getAverage_salary()){
+                        tables.get(j).addPerson(tables.get(i).getPerson_from_List(k));
+                        tables.get(i).removePerson(k);
+                        break transfer; //Выходим вообще из переводов тк теперь некоторые сотрудники могут быть доступны к переводу
+                    }
+                }
+            }
+        }
 
-        3 2 43000
-        7 2 10000
-
-
-        5 3 14000
-        6 3 44000*/
+        System.out.println();
+        for (Table_Section t : tables) {
+            t.calculate_section_salary();
+            System.out.println(t.getAverage_salary());
+        }
     }
 }
