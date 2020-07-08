@@ -11,6 +11,7 @@ public class FirstTask {
         List<Table_Section> tables = new LinkedList<>();
         Set<Integer> nums_of_sections = new HashSet<>();
 
+        // *Потом обернуть в try catch
         BufferedReader fileReader = new BufferedReader(new FileReader("src\\main\\resources\\Input_file.txt"));
         String line = fileReader.readLine();
         while (line != null) {
@@ -31,6 +32,7 @@ public class FirstTask {
             }
             line = fileReader.readLine();
         }
+        fileReader.close();
 
         for (Table_Section t : tables) {
             t.calculate_section_salary();
@@ -59,6 +61,7 @@ public class FirstTask {
                     if (tables.get(i).getPerson_from_List(k).getSalary() < tables.get(i).getAverage_salary() &&
                             tables.get(i).getPerson_from_List(k).getSalary() > tables.get(j).getAverage_salary()){
                         tables.get(j).addPerson(tables.get(i).getPerson_from_List(k));
+                        tables.get(i).getPerson_from_List(k).setSection(tables.get(j).getTable_section());
                         tables.get(i).removePerson(k);
                         break transfer; //Выходим вообще из переводов тк теперь некоторые сотрудники могут быть доступны к переводу
                     }
