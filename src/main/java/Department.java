@@ -1,6 +1,8 @@
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Department {
     private List<Person> list = new LinkedList<>();
@@ -9,6 +11,12 @@ public class Department {
 
     public Department(String departmentSection) {
         this.departmentName = departmentSection;
+    }
+
+    public Department(Department value) {
+        this.list = new LinkedList<>(value.getPersonsList());
+        this.departmentName = value.getDepartmentName();
+        this.averageSalary = value.getAverageSalary();
     }
 
     public void addPerson(Person person){
@@ -28,8 +36,12 @@ public class Department {
         averageSalary = new BigDecimal(0);
         for (Person person : list)
             averageSalary = averageSalary.add(person.getSalary());
-        averageSalary = averageSalary.divide(new BigDecimal(list.size()));
+        averageSalary = averageSalary.divide(new BigDecimal(list.size()), 2, RoundingMode.HALF_UP);
         return averageSalary;
+    }
+
+    public List<Person> getPersonsList() {
+        return list;
     }
 
     public int listPerson_Size(){
@@ -38,6 +50,21 @@ public class Department {
 
     public Person getPersonFromList(int id) {
         return list.get(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Department that = (Department) o;
+        return Objects.equals(list, that.list) &&
+                Objects.equals(departmentName, that.departmentName) &&
+                Objects.equals(averageSalary, that.averageSalary);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(list, departmentName, averageSalary);
     }
 
     @Override

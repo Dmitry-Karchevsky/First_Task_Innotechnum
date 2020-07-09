@@ -6,6 +6,9 @@ import java.util.*;
 
 public class FirstTask {
 
+    private static Map<String, Department> allDepartments;
+    private static Set<Map<String, Department>> setDepartmentsVariants;
+
     /**
      * Данный метод возвращает сотрудника (Person) для добавления его в свой отдел
      * Метод позволяет вводить любое ФИО любой длинны,
@@ -53,6 +56,9 @@ public class FirstTask {
         return allDepartments;
     }
 
+    /**
+     * Читаемый вывод в консоль
+     */
     private static void printMap(Map<String, Department> map){
         for (Department t : map.values()) {
             System.out.printf("Средняя зарплата в отделе %s: %s\nСостав отдела: \n",
@@ -61,41 +67,72 @@ public class FirstTask {
         }
     }
 
-    public static void main(String[] args) {
-        Map<String, Department> allDepartments = FillInMap(args[0]);
-        printMap(allDepartments);
+    /**
+     * Метод клонирования Map
+     * Необходим для неизменности allDepartments
+     */
+    private static Map<String, Department> cloneMap( Map<String, Department> srcMap) {
+        Map<String, Department> destMap = new HashMap<>();
+        for(Map.Entry<String, Department> entry : srcMap.entrySet()) {
+            destMap.put(entry.getKey(), new Department(entry.getValue()));
+        }
+        return destMap;
+    }
 
-        /**
-         * Данный цикл скорее всего должен быть реализован рекурсией тк после его закрытия
-         * появляются новые сотрудники для перевода в отделы тк средняя зарплата в отделах меняется
-         *
-         * Проверяемый отдел - i
-         * Отдел в который может быть помещен сотрудник - j
-         * Номер сотрудника в отделе - k
-         *
-         * Проверяем зарплату k-го сотрудника в i-ом отделе со средней зарплатой j-го отдела и со средней зарплатой i-го отдела
-         * если меньше "j" или больше "i" идем дальше по сотрудникам и отделам
-         * если больше переносим сотрудника в отдел
-         */
-        /*transfer: for (int i = 0; i < allDepartments.size(); i++) {
-            for (int j = 0; j < allDepartments.size(); j++) {
-                //Прооверка на тот же отдел
-                if (i == j)
-                    continue;
-                for (int k = 0; k < allDepartments.get(i).listPerson_Size(); k++) {
-                    if (allDepartments.get(i).getPersonFromList(k).getSalary() < allDepartments.get(i).getAverageSalary() &&
-                            allDepartments.get(i).getPersonFromList(k).getSalary() > allDepartments.get(j).getAverageSalary()){
-                        allDepartments.get(j).addPerson(allDepartments.get(i).getPersonFromList(k));
-                        allDepartments.get(i).removePerson(k);
-                        break transfer; //Выходим вообще из переводов тк теперь некоторые сотрудники могут быть доступны к переводу
+    /**
+     * Проверяемый отдел - departmentPairOut
+     * Отдел в который может быть помещен сотрудник - departmentPairIn
+     * Номер сотрудника в отделе - k
+     *
+     * Проверяем зарплату k-го сотрудника в отделе (departmentPairOut) со средней зарплатой отдела (departmentPairIn)
+     * и со средней зарплатой отдела (departmentPairOut)
+     * если меньше "departmentPairIn" или больше "departmentPairOut" идем дальше по сотрудникам и отделам
+     * если больше - переносим сотрудника в отдел и проверяем данный отдел на наличие такого же в setDepartmentsVariants
+     */
+    private static void transferPerson(){
+        boolean end = true;
+        while (end) {
+            Map<String, Department> anotherVariantMap = cloneMap(allDepartments);
+            transfer:
+            for (Map.Entry<String, Department> departmentPairOut : anotherVariantMap.entrySet()) {
+                for (Map.Entry<String, Department> departmentPairIn : anotherVariantMap.entrySet()) {
+                    if (departmentPairOut.getKey().equals(departmentPairIn.getKey()))
+                        continue;
+                    for (int k = 0; k < departmentPairOut.getValue().listPerson_Size(); k++) {
+                        if (departmentPairOut.getValue().getPersonFromList(k).getSalary().
+                                compareTo(departmentPairOut.getValue().getAverageSalary()) < 0 &&
+                                departmentPairOut.getValue().getPersonFromList(k).getSalary().
+                                        compareTo(departmentPairIn.getValue().getAverageSalary()) > 0) {
+                            departmentPairIn.getValue().addPerson(departmentPairOut.getValue().getPersonFromList(k));
+                            departmentPairOut.getValue().removePerson(k);
+                            if (setDepartmentsVariants.contains(anotherVariantMap)) {
+                                //Если такой отдел есть - меняем местами обратно
+                                departmentPairOut.getValue().addPerson(departmentPairIn.getValue().getPersonFromList(departmentPairIn.getValue().listPerson_Size() - 1));
+                                departmentPairIn.getValue().removePerson(departmentPairIn.getValue().listPerson_Size() - 1);
+                                continue;
+                            }
+                            setDepartmentsVariants.add(anotherVariantMap);
+                            end = true;
+                            break transfer;
+                        }
+                        end = false;
                     }
                 }
             }
-        }*/
+        }
+    }
 
-        System.out.println();
-        for (Department t : allDepartments.values()) {
-            System.out.println(t.getAverageSalary());
+    public static void main(String[] args) {
+        allDepartments = FillInMap(args[0]);
+        printMap(allDepartments);
+        setDepartmentsVariants = new HashSet<>();
+        transferPerson();
+        System.out.println("\tВАРИАНТЫ ПЕРЕВОДОВ СОТРУДНИКОВ:");
+        int var = 1;
+        for (Map<String, Department> map : setDepartmentsVariants) {
+            System.out.printf("Вариант %d:\n", var);
+            printMap(map);
+            var++;
         }
     }
 }
