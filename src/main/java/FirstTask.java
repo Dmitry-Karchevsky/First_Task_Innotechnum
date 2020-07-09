@@ -1,43 +1,69 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 public class FirstTask {
-    public static void main(String[] args) throws IOException {
-        List<Table_Section> tables = new LinkedList<>();
-        Set<Integer> nums_of_sections = new HashSet<>();
 
-        // *Потом обернуть в try catch
-        BufferedReader fileReader = new BufferedReader(new FileReader("src\\main\\resources\\Input_file.txt"));
-        String line = fileReader.readLine();
-        while (line != null) {
-            //Считываем данные о работнике из файла
-            String[] arr_of_str = line.split(" ");
-            //Создаем работника и смотрим есть ли отдел, в котором он работает, если нет, то создаем этот отдел
-            Person person = new Person(Integer.valueOf(arr_of_str[0]), Integer.valueOf(arr_of_str[1]), Integer.valueOf(arr_of_str[2]));
-            if (!nums_of_sections.contains(person.getSection())) {
-                tables.add(new Table_Section(person.getSection()));
-                nums_of_sections.add(person.getSection());
-            }
-            //Смотрим к какому отделу принадлежит наш работник
-            for (int i = 0; i < tables.size(); i++) {
-                if (tables.get(i).getTable_section() == person.getSection()){
-                    tables.get(i).addPerson(person);
-                    break;
+    /**
+     * Данный метод возвращает сотрудника (Person) для добавления его в свой отдел
+     * Метод позволяет вводить любое ФИО любой длинны,
+     * но выдаст исключение при длине строки < 3 и если неверно указана зарплата сотрудника
+     */
+    private static Person createPerson(String[] info){
+        if (info.length < 3)
+            throw new IndexOutOfBoundsException();
+        BigDecimal salary;
+        try {
+            salary = new BigDecimal(info[info.length - 1]);
+        }
+        catch (NumberFormatException e){
+            throw e;
+        }
+        StringBuilder name = new StringBuilder();
+        for (int i = info.length - 3; i >= 0; i--) {
+            name.insert(0, info[i] + " ");
+        }
+        return new Person(name.toString().trim(), info[info.length - 2], salary);
+    }
+
+    /**
+     * Данный метод возвращает заполненную Map, где key - название отдела, value - сам отдел
+     * Релаизация Map - HashMap
+     * При возникновении ошибок программа пропускает "ошибочную" строку и спускается дальше по файлу
+     */
+    private static Map<String, Department> FillInMap(String filepath){
+        Map<String, Department> allDepartments = new HashMap<>();
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(filepath))){
+            String line = fileReader.readLine();
+            while (line != null) {
+                try {
+                    Person person = createPerson(line.split(" "));
+                    if (!allDepartments.containsKey(person.getPersonDepartment()))
+                        allDepartments.put(person.getPersonDepartment(), new Department(person.getPersonDepartment()));
+                    allDepartments.get(person.getPersonDepartment()).addPerson(person);
                 }
+                catch (Exception e){}
+                line = fileReader.readLine();
             }
-            line = fileReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        fileReader.close();
+        return allDepartments;
+    }
 
-        for (Table_Section t : tables) {
-            t.calculate_section_salary();
-            System.out.println(t.getAverage_salary());
+    private static void printMap(Map<String, Department> map){
+        for (Department t : map.values()) {
+            System.out.printf("Средняя зарплата в отделе %s: %s\nСостав отдела: \n",
+                    t.getDepartmentName(), t.getAverageSalary().toString());
+            System.out.println(t.toString());
         }
+    }
+
+    public static void main(String[] args) {
+        Map<String, Department> allDepartments = FillInMap(args[0]);
+        printMap(allDepartments);
 
         /**
          * Данный цикл скорее всего должен быть реализован рекурсией тк после его закрытия
@@ -46,33 +72,30 @@ public class FirstTask {
          * Проверяемый отдел - i
          * Отдел в который может быть помещен сотрудник - j
          * Номер сотрудника в отделе - k
+         *
+         * Проверяем зарплату k-го сотрудника в i-ом отделе со средней зарплатой j-го отдела и со средней зарплатой i-го отдела
+         * если меньше "j" или больше "i" идем дальше по сотрудникам и отделам
+         * если больше переносим сотрудника в отдел
          */
-        transfer: for (int i = 0; i < tables.size(); i++) {
-            for (int j = 0; j < tables.size(); j++) {
+        /*transfer: for (int i = 0; i < allDepartments.size(); i++) {
+            for (int j = 0; j < allDepartments.size(); j++) {
                 //Прооверка на тот же отдел
                 if (i == j)
                     continue;
-                /**
-                 * Проверяем зарплату k-го сотрудника в i-ом отделе со средней зарплатой j-го отдела и со средней зарплатой i-го отдела
-                 * если меньше "j" или больше "i" идем дальше по сотрудникам и отделам
-                 * если больше переносим сотрудника в отдел
-                 */
-                for (int k = 0; k < tables.get(i).listPerson_Size(); k++) {
-                    if (tables.get(i).getPerson_from_List(k).getSalary() < tables.get(i).getAverage_salary() &&
-                            tables.get(i).getPerson_from_List(k).getSalary() > tables.get(j).getAverage_salary()){
-                        tables.get(j).addPerson(tables.get(i).getPerson_from_List(k));
-                        tables.get(i).getPerson_from_List(k).setSection(tables.get(j).getTable_section());
-                        tables.get(i).removePerson(k);
+                for (int k = 0; k < allDepartments.get(i).listPerson_Size(); k++) {
+                    if (allDepartments.get(i).getPersonFromList(k).getSalary() < allDepartments.get(i).getAverageSalary() &&
+                            allDepartments.get(i).getPersonFromList(k).getSalary() > allDepartments.get(j).getAverageSalary()){
+                        allDepartments.get(j).addPerson(allDepartments.get(i).getPersonFromList(k));
+                        allDepartments.get(i).removePerson(k);
                         break transfer; //Выходим вообще из переводов тк теперь некоторые сотрудники могут быть доступны к переводу
                     }
                 }
             }
-        }
+        }*/
 
         System.out.println();
-        for (Table_Section t : tables) {
-            t.calculate_section_salary();
-            System.out.println(t.getAverage_salary());
+        for (Department t : allDepartments.values()) {
+            System.out.println(t.getAverageSalary());
         }
     }
 }

@@ -1,8 +1,9 @@
-1 1 30000
-2 1 12000
-3 2 43000
-4 1 38000
-5 3 14000
-6 3 44000
-7 2 10000
-8 1 50000
+Ivanov Ivan Ivanovich Financial 30000
+Sidorov Petr Mihailovich Financial 12000
+Karchevsky Dmitry Sergeevich IT 43000
+Klokov Ilia Vladimirovich Financial 38000
+Putin Vladimir Vladimirovich Support 14000
+Varlamov Ilia Dmitrievich Support 44000
+Shevchenko IT 10000
+Kolesnikova Irina Alexandrovna Financial 50000
+Ibragimov IT
