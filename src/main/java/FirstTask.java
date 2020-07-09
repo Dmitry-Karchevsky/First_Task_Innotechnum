@@ -47,7 +47,9 @@ public class FirstTask {
                         allDepartments.put(person.getPersonDepartment(), new Department(person.getPersonDepartment()));
                     allDepartments.get(person.getPersonDepartment()).addPerson(person);
                 }
-                catch (Exception e){}
+                catch (Exception e){
+                    System.out.println("Один из сотрудников записан неверно");
+                }
                 line = fileReader.readLine();
             }
         } catch (IOException e) {
@@ -98,7 +100,7 @@ public class FirstTask {
                 for (Map.Entry<String, Department> departmentPairIn : anotherVariantMap.entrySet()) {
                     if (departmentPairOut.getKey().equals(departmentPairIn.getKey()))
                         continue;
-                    for (int k = 0; k < departmentPairOut.getValue().listPerson_Size(); k++) {
+                    for (int k = 0; k < departmentPairOut.getValue().listPersonSize(); k++) {
                         if (departmentPairOut.getValue().getPersonFromList(k).getSalary().
                                 compareTo(departmentPairOut.getValue().getAverageSalary()) < 0 &&
                                 departmentPairOut.getValue().getPersonFromList(k).getSalary().
@@ -107,8 +109,8 @@ public class FirstTask {
                             departmentPairOut.getValue().removePerson(k);
                             if (setDepartmentsVariants.contains(anotherVariantMap)) {
                                 //Если такой отдел есть - меняем местами обратно
-                                departmentPairOut.getValue().addPerson(departmentPairIn.getValue().getPersonFromList(departmentPairIn.getValue().listPerson_Size() - 1));
-                                departmentPairIn.getValue().removePerson(departmentPairIn.getValue().listPerson_Size() - 1);
+                                departmentPairOut.getValue().addPerson(departmentPairIn.getValue().getPersonFromList(departmentPairIn.getValue().listPersonSize() - 1));
+                                departmentPairIn.getValue().removePerson(departmentPairIn.getValue().listPersonSize() - 1);
                                 continue;
                             }
                             setDepartmentsVariants.add(anotherVariantMap);

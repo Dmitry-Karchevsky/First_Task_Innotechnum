@@ -44,7 +44,7 @@ public class Department {
         return list;
     }
 
-    public int listPerson_Size(){
+    public int listPersonSize(){
         return list.size();
     }
 
