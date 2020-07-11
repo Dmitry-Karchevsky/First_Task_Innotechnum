@@ -1,13 +1,16 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.jar.JarOutputStream;
 
 public class FirstTask {
 
     private static Map<String, Department> allDepartments;
-    private static Set<Map<String, Department>> setDepartmentsVariants;
+    private static volatile Set<Map<String, Department>> setDepartmentsVariants;
 
     /**
      * Данный метод возвращает сотрудника (Person) для добавления его в свой отдел
@@ -73,7 +76,7 @@ public class FirstTask {
      * Метод клонирования Map
      * Необходим для неизменности allDepartments
      */
-    private static Map<String, Department> cloneMap( Map<String, Department> srcMap) {
+    private static Map<String, Department> cloneMap(Map<String, Department> srcMap) {
         Map<String, Department> destMap = new HashMap<>();
         for(Map.Entry<String, Department> entry : srcMap.entrySet()) {
             destMap.put(entry.getKey(), new Department(entry.getValue()));
@@ -91,20 +94,31 @@ public class FirstTask {
      * если меньше "departmentPairIn" или больше "departmentPairOut" идем дальше по сотрудникам и отделам
      * если больше - переносим сотрудника в отдел и проверяем данный отдел на наличие такого же в setDepartmentsVariants
      */
-    private static void transferPerson(){
+    private static void transferPerson(Map<String, Department> map, int ooo){
         boolean end = true;
+        System.out.println(ooo);
+       // System.out.println("+++++++++++++++++++++");
+        System.out.println(map);
+        System.out.println("-----------------");
         while (end) {
-            Map<String, Department> anotherVariantMap = cloneMap(allDepartments);
+            System.out.println(map);
+            System.out.println("сравнение");
+            Map<String, Department> anotherVariantMap = cloneMap(map);
+             //System.out.println(ooo);
+            System.out.println(anotherVariantMap);
             transfer:
             for (Map.Entry<String, Department> departmentPairOut : anotherVariantMap.entrySet()) {
                 for (Map.Entry<String, Department> departmentPairIn : anotherVariantMap.entrySet()) {
                     if (departmentPairOut.getKey().equals(departmentPairIn.getKey()))
                         continue;
                     for (int k = 0; k < departmentPairOut.getValue().listPersonSize(); k++) {
+                        System.out.println("===");
+                        System.out.println(departmentPairOut.getValue().getPersonFromList(k));
                         if (departmentPairOut.getValue().getPersonFromList(k).getSalary().
                                 compareTo(departmentPairOut.getValue().getAverageSalary()) < 0 &&
                                 departmentPairOut.getValue().getPersonFromList(k).getSalary().
                                         compareTo(departmentPairIn.getValue().getAverageSalary()) > 0) {
+                            System.out.println("+++");
                             departmentPairIn.getValue().addPerson(departmentPairOut.getValue().getPersonFromList(k));
                             departmentPairOut.getValue().removePerson(k);
                             if (setDepartmentsVariants.contains(anotherVariantMap)) {
@@ -114,6 +128,15 @@ public class FirstTask {
                                 continue;
                             }
                             setDepartmentsVariants.add(anotherVariantMap);
+                            //System.out.println(anotherVariantMap);
+                            Map<String, Department> anotherVariantMap2 = cloneMap(anotherVariantMap);
+                            System.out.println("до рекурсии map");
+                            System.out.println(map);
+                            System.out.println("до рекурсии anothermap");
+                            System.out.println(anotherVariantMap);
+                            transferPerson(anotherVariantMap2, ooo++);
+                            System.out.println("после рекурсии");
+                            System.out.println(map);
                             end = true;
                             break transfer;
                         }
@@ -122,13 +145,19 @@ public class FirstTask {
                 }
             }
         }
+        System.out.println("end while");
     }
 
     public static void main(String[] args) {
         allDepartments = FillInMap(args[0]);
         printMap(allDepartments);
         setDepartmentsVariants = new HashSet<>();
-        transferPerson();
+
+        int ooo = 0;
+        transferPerson(allDepartments, ooo);
+        /*TransferStream stream = new TransferStream(allDepartments);
+        stream.start();*/
+
         System.out.println("\tВАРИАНТЫ ПЕРЕВОДОВ СОТРУДНИКОВ:");
         int var = 1;
         for (Map<String, Department> map : setDepartmentsVariants) {

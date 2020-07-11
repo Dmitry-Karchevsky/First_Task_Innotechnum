@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,11 @@ public class Department {
     }
 
     public Department(Department value) {
-        this.list = new LinkedList<>(value.getPersonsList());
+        //this.list = new LinkedList<>(value.getPersonsList());// ссылается на одни и те же объекты
+        //this.list = List.copyOf(value.getPersonsList());
+        list = new LinkedList<>();
+        for (Person p : value.getPersonsList())
+            list.add(p);
         this.departmentName = value.getDepartmentName();
         this.averageSalary = value.getAverageSalary();
     }
@@ -22,6 +27,7 @@ public class Department {
     public void addPerson(Person person){
         person.setDepartment(departmentName);
         list.add(person);
+        //list.get(list.size() - 1).setDepartment(departmentName);
     }
 
     public void removePerson(int id){

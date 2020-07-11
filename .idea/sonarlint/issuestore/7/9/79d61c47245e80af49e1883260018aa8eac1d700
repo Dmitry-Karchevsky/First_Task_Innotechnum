@@ -1,0 +1,20 @@
+
+n
+java:S3776^"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(âÓ¡8î‡ùœ³.
+]
+java:S1119b";Refactor the code to remove this label and the need for it.(œÎŸüÿÿÿÿ8¤¥Äœ³.
+V	java:S106„"9Replace this use of System.out or System.err by a logger.(¯œşÎ8€Ï³¡³.
+W
+java:S1141,"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8Ô´Ìš³.
+Z	java:S106D"9Replace this use of System.out or System.err by a logger.(Â€öÙşÿÿÿÿ8Ô´Ìš³.
+s
+java:S3457B"Q%n should be used in place of \n to produce the platform-specific line separator.(ïç‡ûşÿÿÿÿ8Ô´Ìš³.
+t
+java:S3457‡"Q%n should be used in place of \n to produce the platform-specific line separator.(ê–šüÿÿÿÿ8…‚¡¢³.
+Z	java:S106B"9Replace this use of System.out or System.err by a logger.(ïç‡ûşÿÿÿÿ8Ô´Ìš³.
+t
+java:S2737"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(ö™û8Ô´Ìš³.
+Z	java:S1063"9Replace this use of System.out or System.err by a logger.(º¦—Ïùÿÿÿÿ8´ˆã¢³.
+z	java:S135g"YReduce the total number of break and continue statements in this loop to use at most one.(‘ä¿ıÿÿÿÿ8…áúœ³.
+[	java:S106‡"9Replace this use of System.out or System.err by a logger.(ê–šüÿÿÿÿ8ôïœ¢³.
+o	java:S100'"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ëçšÿÿÿÿÿ8Ô´Ìš³.
