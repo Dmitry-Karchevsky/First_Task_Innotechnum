@@ -14,7 +14,7 @@ public class TransferStream extends Thread{
     private synchronized Map<String, Department> cloneMap(Map<String, Department> srcMap) {
         Map<String, Department> destMap = new HashMap<>();
         for(Map.Entry<String, Department> entry : srcMap.entrySet()) {
-            destMap.put(entry.getKey(), new Department(entry.getValue()));
+            //destMap.put(entry.getKey(), new Department(entry.getValue()));
         }
         return destMap;
     }
