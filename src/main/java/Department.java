@@ -2,20 +2,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class Department {
+public class Department implements Cloneable{
     private List<Person> list = new LinkedList<>();
     private String departmentName;
     private BigDecimal averageSalary;
 
     public Department(String departmentSection) {
         this.departmentName = departmentSection;
-    }
-
-    public Department(Department value) {
-        list = new LinkedList<>();
-        list.addAll(value.getPersonsList());
-        this.departmentName = value.getDepartmentName();
-        this.averageSalary = value.getAverageSalary();
     }
 
     public void addPerson(Person person){
@@ -48,6 +41,14 @@ public class Department {
 
     public Person getPersonFromList(int id) {
         return list.get(id);
+    }
+
+    @Override
+    public Department clone() throws CloneNotSupportedException {
+        Department newDepartment = (Department) super.clone();
+        newDepartment.list = new LinkedList<>();
+        newDepartment.list.addAll(this.getPersonsList());
+        return newDepartment;
     }
 
     @Override

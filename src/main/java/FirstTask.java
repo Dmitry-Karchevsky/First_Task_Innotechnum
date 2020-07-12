@@ -102,7 +102,11 @@ public class FirstTask {
     private static Map<String, Department> cloneMap( Map<String, Department> srcMap) {
         Map<String, Department> destMap = new HashMap<>();
         for(Map.Entry<String, Department> entry : srcMap.entrySet()) {
-            destMap.put(entry.getKey(), new Department(entry.getValue()));
+            try {
+                destMap.put(entry.getKey(), entry.getValue().clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         }
         return destMap;
     }
