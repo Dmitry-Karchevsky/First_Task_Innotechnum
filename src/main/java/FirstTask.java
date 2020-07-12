@@ -139,8 +139,7 @@ public class FirstTask {
                                 continue;
                             }
                             setDepartmentsVariants.add(anotherVariantMap);
-                            Map<String, Department> anotherVariantMap2 = cloneMap(anotherVariantMap);
-                            transferPersons(anotherVariantMap2);
+                            transferPersons(anotherVariantMap);
                             end = true;
                             break transfer;
                         }
