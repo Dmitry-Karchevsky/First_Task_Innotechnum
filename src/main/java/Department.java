@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class Department{
+public class Department {
     private List<Person> list = new LinkedList<>();
     private String departmentName;
     private BigDecimal averageSalary;
@@ -11,15 +11,7 @@ public class Department{
         this.departmentName = departmentSection;
     }
 
-    /*public Department(List<Person> list, String departmentName, BigDecimal averageSalary) {
-        this.list = list;
-        this.departmentName = departmentName;
-        this.averageSalary = averageSalary;
-    }*/
-
     public Department(Department value) {
-        //this.list = new LinkedList<>(value.getPersonsList());// ссылается на одни и те же объекты
-        //this.list = List.copyOf(value.getPersonsList());
         list = new LinkedList<>();
         list.addAll(value.getPersonsList());
         this.departmentName = value.getDepartmentName();
@@ -27,10 +19,7 @@ public class Department{
     }
 
     public void addPerson(Person person){
-        //person.setDepartment(departmentName);
-        //list.add(person);
-        list.add(new Person(person.getName(), departmentName, person.getSalary()));
-        //list.get(list.size() - 1).setDepartment(departmentName);
+        list.add(new Person(person.getId(), person.getName(), departmentName, person.getSalary()));
     }
 
     public void removePerson(int id){
@@ -61,13 +50,6 @@ public class Department{
         return list.get(id);
     }
 
-    /*@Override
-    protected Object clone() throws CloneNotSupportedException {
-        List<Person> newList = new LinkedList<>();
-        newList.addAll(this.getPersonsList());
-        return new Department(newList, this.getDepartmentName(), this.getAverageSalary());
-    }*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,7 +63,6 @@ public class Department{
     @Override
     public int hashCode() {
         return Objects.hash(list, departmentName, getAverageSalary());
-        //return list.hashCode() ^ departmentName.hashCode() ^ averageSalary.hashCode();
     }
 
     @Override

@@ -1,13 +1,14 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
 public class FirstTask {
 
-    private static HashMap<String, Department> allDepartments;
-    private static volatile Set<Map<String, Department>> setDepartmentsVariants;
+    private static Map<String, Department> allDepartments;
+    private static Set<Map<String, Department>> setDepartmentsVariants = new HashSet<>();
 
     /**
      * Данный метод возвращает сотрудника (Person) для добавления его в свой отдел
@@ -35,10 +36,11 @@ public class FirstTask {
      * Данный метод возвращает заполненную Map, где key - название отдела, value - сам отдел
      * Релаизация Map - HashMap
      * При возникновении ошибок программа пропускает "ошибочную" строку и спускается дальше по файлу
+     * При ненахождении файла программа выводит соответствуещее сообщение и завершается
      */
-    private static HashMap<String, Department> fillInMap(String filepath){
-        HashMap<String, Department> allDepartments = new HashMap<>();
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(filepath))){
+    private static Map<String, Department> readFileInMap(String fileName){
+        Map<String, Department> allDepartments = new HashMap<>();
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(fileName))){
             String line = fileReader.readLine();
             while (line != null) {
                 try {
@@ -53,20 +55,44 @@ public class FirstTask {
                 line = fileReader.readLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Данный файл недоступен");
+            System.exit(0);
         }
         return allDepartments;
     }
 
     /**
-     * Читаемый вывод в консоль
+     * Записывает в файл все варианты распределения сотрудников из setDepartmentsVariants
      */
-    private static void printMap(Map<String, Department> map){
-        for (Department t : map.values()) {
-            System.out.printf("Средняя зарплата в отделе %s: %s\nСостав отдела: \n",
-                    t.getDepartmentName(), t.getAverageSalary().toString());
-            System.out.println(t.toString());
+    private static void writeMapInFile(String fileName){
+        try(FileWriter writer = new FileWriter(fileName, false))
+        {
+            int var = 1;
+            writer.write("\tВАРИАНТЫ ПЕРЕВОДОВ СОТРУДНИКОВ:\n");
+            for (Map<String, Department> map : setDepartmentsVariants) {
+                writer.write("Вариант " + var + ":\n");
+                writer.write(getStringMap(map));
+                var++;
+            }
+            writer.flush();
         }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Возвращает собранную строку с информации об одном варианте распределения отделов
+     */
+    private static String getStringMap(Map<String, Department> map){
+        StringBuilder mapStr = new StringBuilder();
+        for (Department t : map.values()) {
+            mapStr.append("Средняя зарплата в отделе " + t.getDepartmentName() +
+                            ": " + t.getAverageSalary().toString() +
+                            "\nСостав отдела: \n");
+            mapStr.append(t.toString() + "\n");
+        }
+        return mapStr.toString();
     }
 
     /**
@@ -91,7 +117,7 @@ public class FirstTask {
      * если меньше "departmentPairIn" или больше "departmentPairOut" идем дальше по сотрудникам и отделам
      * если больше - переносим сотрудника в отдел и проверяем данный отдел на наличие такого же в setDepartmentsVariants
      */
-    private static void transferPerson(Map<String, Department> map){
+    private static void transferPersons(Map<String, Department> map){
         boolean end = true;
         while (end) {
             Map<String, Department> anotherVariantMap = cloneMap(map);
@@ -114,7 +140,7 @@ public class FirstTask {
                             }
                             setDepartmentsVariants.add(anotherVariantMap);
                             Map<String, Department> anotherVariantMap2 = cloneMap(anotherVariantMap);
-                            transferPerson(anotherVariantMap2);
+                            transferPersons(anotherVariantMap2);
                             end = true;
                             break transfer;
                         }
@@ -126,17 +152,10 @@ public class FirstTask {
     }
 
     public static void main(String[] args) {
-        allDepartments = fillInMap(args[0]);
-        setDepartmentsVariants = new HashSet<>();
+        allDepartments = readFileInMap(args[0]);
 
-        transferPerson(allDepartments);
+        transferPersons(allDepartments);
 
-        System.out.println("\tВАРИАНТЫ ПЕРЕВОДОВ СОТРУДНИКОВ:");
-        int var = 1;
-        for (Map<String, Department> map : setDepartmentsVariants) {
-            System.out.printf("Вариант %d:\n", var);
-            printMap(map);
-            var++;
-        }
+        writeMapInFile(args[1]);
     }
 }
