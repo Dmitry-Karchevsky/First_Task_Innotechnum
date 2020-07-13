@@ -1,54 +1,18 @@
 	ВАРИАНТЫ ПЕРЕВОДОВ СОТРУДНИКОВ:
+
 Вариант 1:
-Средняя зарплата в отделе Support: 29000.00
-Состав отдела: 
-Putin Vladimir Vladimirovich Support 29000
-Varlamov Ilia Dmitrievich Support 29000
-
-Средняя зарплата в отделе Financial: 33333.33
-Состав отдела: 
-Sidorov Petr Mihailovich Financial 12000
-Klokov Ilia Vladimirovich Financial 38000
-Kolesnikova Irina Alexandrovna Financial 50000
-
-Средняя зарплата в отделе IT: 27666.67
-Состав отдела: 
-Karchevsky Dmitry Sergeevich IT 43000
-Shevchenko IT 10000
-Ivanov Ivan Ivanovich IT 30000
-
+Сотрудник Имя: Ivanov Ivan Ivanovich, Зарплата: 30000 из отдела Financial может быть перемещен в отдел Support
+Средняя зарплата до перемещения
+В отделе Financial: 32500.00
+В отделе Support: 29000.00
+Средняя зарплата после перемещения
+В отделе Financial: 33333.33
+В отделе Support: 29333.33
 Вариант 2:
-Средняя зарплата в отделе Support: 29333.33
-Состав отдела: 
-Putin Vladimir Vladimirovich Support 29000
-Varlamov Ilia Dmitrievich Support 29000
-Ivanov Ivan Ivanovich Support 30000
-
-Средняя зарплата в отделе Financial: 33333.33
-Состав отдела: 
-Sidorov Petr Mihailovich Financial 12000
-Klokov Ilia Vladimirovich Financial 38000
-Kolesnikova Irina Alexandrovna Financial 50000
-
-Средняя зарплата в отделе IT: 26500.00
-Состав отдела: 
-Karchevsky Dmitry Sergeevich IT 43000
-Shevchenko IT 10000
-
-Вариант 3:
-Средняя зарплата в отделе Support: 29500.00
-Состав отдела: 
-Varlamov Ilia Dmitrievich Support 29000
-Ivanov Ivan Ivanovich Support 30000
-
-Средняя зарплата в отделе Financial: 33333.33
-Состав отдела: 
-Sidorov Petr Mihailovich Financial 12000
-Klokov Ilia Vladimirovich Financial 38000
-Kolesnikova Irina Alexandrovna Financial 50000
-
-Средняя зарплата в отделе IT: 27333.33
-Состав отдела: 
-Karchevsky Dmitry Sergeevich IT 43000
-Shevchenko IT 10000
-Putin Vladimir Vladimirovich IT 29000
+Сотрудник Имя: Ivanov Ivan Ivanovich, Зарплата: 30000 из отдела Financial может быть перемещен в отдел IT
+Средняя зарплата до перемещения
+В отделе Financial: 32500.00
+В отделе IT: 26500.00
+Средняя зарплата после перемещения
+В отделе Financial: 33333.33
+В отделе IT: 27666.67
