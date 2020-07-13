@@ -10,7 +10,7 @@ public class FirstTask {
     private static List<String> allTransferVariants = new LinkedList<>();
 
     /**
-     * Добавляем вариант распределения сотрудников в List
+     * Вывод средней зарплаты в списке
      */
     private static BigDecimal getAverageSalary(List<Person> list) {
         BigDecimal averageSalary = new BigDecimal(0);
