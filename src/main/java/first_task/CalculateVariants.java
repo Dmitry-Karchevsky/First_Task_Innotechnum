@@ -1,12 +1,13 @@
-package FirstTask;
+package first_task;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-public class FirstTask {
+public class CalculateVariants {
 
-    private static Map<String, Department> allDepartments;
     private static List<String> allTransferVariants = new LinkedList<>();
 
     /**
@@ -54,7 +55,7 @@ public class FirstTask {
      * если меньше "departmentPairIn" или больше "departmentPairOut" идем дальше по сотрудникам и отделам
      * если больше - вызываем addVariant
      */
-    private static void transferPersons(){
+    public static List<String> findVariants(Map<String, Department> allDepartments){
         for (Map.Entry<String, Department> departmentPairOut : allDepartments.entrySet()) {
             for (Map.Entry<String, Department> departmentPairIn : allDepartments.entrySet()) {
                 if (departmentPairOut.getKey().equals(departmentPairIn.getKey()))
@@ -70,22 +71,6 @@ public class FirstTask {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        try {
-            allDepartments = ReadFile.readFileInMap(args[0]);
-            if (allDepartments != null) {
-                transferPersons();
-                try {
-                    WriteFile.writeVariantsInFile(args[1], allTransferVariants);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Имя файла для вывода не введено");
-                }
-            }
-        }
-        catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Имя входного файла не введено");
-        }
+        return allTransferVariants;
     }
 }

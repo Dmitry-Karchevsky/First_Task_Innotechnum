@@ -1,4 +1,4 @@
-package FirstTask;
+package first_task;
 
 import java.util.*;
 

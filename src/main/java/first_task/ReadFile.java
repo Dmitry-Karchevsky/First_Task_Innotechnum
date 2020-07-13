@@ -1,4 +1,4 @@
-package FirstTask;
+package first_task;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,8 +18,7 @@ public class ReadFile {
     private static Person createPerson(String[] info){
         BigDecimal salary;
         try {
-            salary = new BigDecimal(info[info.length - 1].trim());
-            salary.setScale(2, RoundingMode.HALF_UP);
+            salary = new BigDecimal(info[info.length - 1].trim()).setScale(2, RoundingMode.HALF_UP);
             if (salary.compareTo(BigDecimal.ZERO) < 0)
                 throw new NumberFormatException();
         }
