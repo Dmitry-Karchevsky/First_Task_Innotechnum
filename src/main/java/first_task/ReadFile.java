@@ -25,11 +25,7 @@ public class ReadFile {
         catch (NumberFormatException e){
             throw e;
         }
-        StringBuilder name = new StringBuilder();
-        for (int i = info.length - 3; i >= 0; i--) {
-            name.insert(0, info[i] + " ");
-        }
-        return new Person(name.toString().trim(), salary);
+        return new Person(info[0].trim(), salary);
     }
 
     /**
