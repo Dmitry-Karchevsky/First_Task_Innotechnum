@@ -1,10 +1,10 @@
 package first_task;
 
-import java.util.Map;
+import java.util.List;
 
 public class FirstTask {
 
-    private static Map<String, Department> allDepartments;
+    private static List<Department> allDepartments;
 
     public static void main(String[] args) {
         try {

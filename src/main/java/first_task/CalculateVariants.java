@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class CalculateVariants {
 
@@ -55,18 +54,18 @@ public class CalculateVariants {
      * если меньше "departmentPairIn" или больше "departmentPairOut" идем дальше по сотрудникам и отделам
      * если больше - вызываем addVariant
      */
-    public static List<String> findVariants(Map<String, Department> allDepartments){
-        for (Map.Entry<String, Department> departmentPairOut : allDepartments.entrySet()) {
-            for (Map.Entry<String, Department> departmentPairIn : allDepartments.entrySet()) {
-                if (departmentPairOut.getKey().equals(departmentPairIn.getKey()))
+    public static List<String> findVariants(List<Department> allDepartments){
+        for (Department departmentPairOut : allDepartments) {
+            for (Department departmentPairIn : allDepartments) {
+                if (departmentPairOut.getDepartmentName().equals(departmentPairIn.getDepartmentName()))
                     continue;
-                for (int k = 0; k < departmentPairOut.getValue().getPersonsList().size(); k++) {
-                    if (departmentPairOut.getValue().getPersonFromList(k).getSalary().
-                            compareTo(getAverageSalary(departmentPairOut.getValue().getPersonsList())) < 0 &&
-                            departmentPairOut.getValue().getPersonFromList(k).getSalary().
-                                    compareTo(getAverageSalary(departmentPairIn.getValue().getPersonsList())) > 0) {
+                for (int k = 0; k < departmentPairOut.getPersonsList().size(); k++) {
+                    if (departmentPairOut.getPersonFromList(k).getSalary().
+                            compareTo(getAverageSalary(departmentPairOut.getPersonsList())) < 0 &&
+                            departmentPairOut.getPersonFromList(k).getSalary().
+                                    compareTo(getAverageSalary(departmentPairIn.getPersonsList())) > 0) {
 
-                        addVariant(departmentPairOut.getValue(), departmentPairIn.getValue(), k);
+                        addVariant(departmentPairOut, departmentPairIn, k);
                     }
                 }
             }

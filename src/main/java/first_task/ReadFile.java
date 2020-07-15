@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class ReadFile {
@@ -34,10 +36,10 @@ public class ReadFile {
      * При возникновении ошибок программа пропускает "ошибочную" строку и спускается дальше по файлу
      * При ненахождении файла программа выводит соответствуещее сообщение
      */
-    public static Map<String, Department> readFileInMap(String fileName) {
+    public static List<Department> readFileInMap(String fileName) {
         int numStr = 0;
         String[] info = new String[0];
-        Map<String, Department> allDepartments = new HashMap<>();
+        Map<String, List<Person>> allMaps = new HashMap<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(fileName))){
             String line = fileReader.readLine();
             while (line != null) {
@@ -48,9 +50,9 @@ public class ReadFile {
                         throw new IndexOutOfBoundsException();
                     Person person = createPerson(info);
                     String departmentName = info[info.length - 2].trim();
-                    if (!allDepartments.containsKey(departmentName))
-                        allDepartments.put(departmentName, new Department(departmentName));
-                    allDepartments.get(departmentName).addPerson(person);
+                    if (!allMaps.containsKey(departmentName))
+                        allMaps.put(departmentName, new LinkedList<Person>());
+                    allMaps.get(departmentName).add(person);
                 }
                 catch (IndexOutOfBoundsException e){
                     System.out.printf("В строке №%d с данными \"%s\" сотрудник записан неверно: ", numStr, line);
@@ -71,6 +73,10 @@ public class ReadFile {
         catch (IOException e){
             System.out.printf("Ошибка при чтении данных из файла: %s\n", fileName);
             return null;
+        }
+        List<Department> allDepartments = new LinkedList<>();
+        for (Map.Entry pair : allMaps.entrySet()){
+            allDepartments.add(new Department((String)pair.getKey(), (LinkedList<Person>) pair.getValue()));
         }
         return allDepartments;
     }

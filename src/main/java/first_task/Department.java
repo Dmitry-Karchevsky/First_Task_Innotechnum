@@ -1,17 +1,14 @@
 package first_task;
 
-import java.util.*;
+import java.util.LinkedList;
 
 public class Department {
-    private LinkedList<Person> list = new LinkedList<>();
+    private LinkedList<Person> list;
     private String departmentName;
 
-    public Department(String departmentSection) {
-        this.departmentName = departmentSection;
-    }
-
-    public void addPerson(Person person){
-        list.add(person);
+    public Department(String departmentName, LinkedList<Person> list) {
+        this.list = list;
+        this.departmentName = departmentName;
     }
 
     public String getDepartmentName() {
