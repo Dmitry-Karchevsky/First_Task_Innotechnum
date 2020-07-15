@@ -1,4 +1,4 @@
-package first_task;
+package firsttask;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class FirstTask {
 
     public static void main(String[] args) {
         try {
-            allDepartments = ReadFile.readFileInMap(args[0]);
+            allDepartments = ReadFile.readFileInList(args[0]);
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Имя входного файла не введено");

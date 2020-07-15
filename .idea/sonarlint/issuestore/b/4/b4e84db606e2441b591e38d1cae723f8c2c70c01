@@ -1,0 +1,19 @@
+
+Z	java:S106L"9Replace this use of System.out or System.err by a logger.(«¹Â®ÿÿÿÿÿ8ûá³Ã´.
+W
+java:S11411"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8ÖºŞ½´.
+Z	java:S106H"9Replace this use of System.out or System.err by a logger.(å‘´ûÿÿÿÿ8’û™¾´.
+\
+java:S1118":Add a private constructor to hide the implicit public one.(ô°×àúÿÿÿÿ8ÖºŞ½´.
+t
+java:S2737"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(ö™û8ÖºŞ½´.
+U	java:S106>"9Replace this use of System.out or System.err by a logger.(¹™İÅ8ÂŠ¾´.
+Z	java:S106@"9Replace this use of System.out or System.err by a logger.(ö«µ»ÿÿÿÿÿ8íæÈ¾´.
+s
+java:S3457C"Q%n should be used in place of \n to produce the platform-specific line separator.(±¬¾óÿÿÿÿÿ8ÿÕ’Ã´.
+s
+java:S3457H"Q%n should be used in place of \n to produce the platform-specific line separator.(å‘´ûÿÿÿÿ8’û™¾´.
+s
+java:S3457L"Q%n should be used in place of \n to produce the platform-specific line separator.(«¹Â®ÿÿÿÿÿ8ûá³Ã´.
+Z	java:S106<"9Replace this use of System.out or System.err by a logger.(ë¿”âüÿÿÿÿ8ä°Ê¾´.
+Z	java:S106C"9Replace this use of System.out or System.err by a logger.(±¬¾óÿÿÿÿÿ8çşĞ¾´.
