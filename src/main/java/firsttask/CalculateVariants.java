@@ -8,12 +8,11 @@ import java.util.List;
 public class CalculateVariants {
 
     private static final List<String> allTransferVariants = new ArrayList<>();
-    private static List<List<Person>> allVariantsOfLists;
 
     /**
      * Вывод средней зарплаты в списке
      */
-    private static BigDecimal getAverageSalary(List<Person> list) {
+    public static BigDecimal getAverageSalary(List<Person> list) {
         BigDecimal averageSalary = new BigDecimal(0);
         for (Person person : list)
             averageSalary = averageSalary.add(person.getSalary());
@@ -25,22 +24,38 @@ public class CalculateVariants {
      * Добавляем вариант распределения сотрудников в List
      */
     private static void addVariant(Department out, Department in, List<Person> list){
-        String variant = "Сотрудники: \n";
+        StringBuilder variant = new StringBuilder("Сотрудники: \n");
         for (Person person : list)
-            variant += (person + "\n");
-        variant += "Из отдела " + out.getDepartmentName() + " могут быть перемещены в отдел " + in.getDepartmentName() +
-                "\nСредняя зарплата до перемещения\nВ отделе " + out.getDepartmentName() + ": " + getAverageSalary(out.getPersonsList()) +
-                "\nВ отделе " + in.getDepartmentName() + ": " + getAverageSalary(in.getPersonsList()) +
-                "\nСредняя зарплата после перемещения\n";
+            variant.append(person).append("\n");
+        variant.append("Из отдела ").
+                append(out.getDepartmentName()).
+                append(" могут быть перемещены в отдел ").
+                append(in.getDepartmentName()).
+                append("\nСредняя зарплата до перемещения\nВ отделе ").
+                append(out.getDepartmentName()).
+                append(": ").
+                append(getAverageSalary(out.getPersonsList())).
+                append("\nВ отделе ").
+                append(in.getDepartmentName()).
+                append(": ").
+                append(getAverageSalary(in.getPersonsList())).
+                append("\nСредняя зарплата после перемещения\n");
 
         List<Person> tempListOut = out.getPersonsList();
         List<Person> tempListIn = in.getPersonsList();
 
         tempListIn.addAll(list);
         tempListOut.removeAll(list);
-        variant += "В отделе " + out.getDepartmentName() + ": " + getAverageSalary(tempListOut) +
-                "\nВ отделе " + in.getDepartmentName() + ": " + getAverageSalary(tempListIn) + "\n";
-        allTransferVariants.add(variant);
+        variant.append("В отделе ").
+                append(out.getDepartmentName()).
+                append(": ").
+                append(getAverageSalary(tempListOut)).
+                append("\nВ отделе ").
+                append(in.getDepartmentName()).
+                append(": ").
+                append(getAverageSalary(tempListIn)).
+                append("\n");
+        allTransferVariants.add(variant.toString());
     }
 
     /**
@@ -55,19 +70,13 @@ public class CalculateVariants {
      */
     public static List<String> findVariants(List<Department> allDepartments){
         for (Department departmentPairOut : allDepartments) {
+            List<List<Person>> allVariantsOfLists = recursionSearch(departmentPairOut.getPersonsList(), 0, new ArrayList<>(), getAverageSalary(departmentPairOut.getPersonsList()));
             for (Department departmentPairIn : allDepartments) {
                 if (departmentPairOut.getDepartmentName().equals(departmentPairIn.getDepartmentName()))
                     continue;
-
-                allVariantsOfLists = new ArrayList<>();
-                recursionSearch(departmentPairOut.getPersonsList(), 0, new ArrayList<>());
-
                 for (List<Person> list : allVariantsOfLists){
-                    if (getAverageSalary(list).compareTo(getAverageSalary(departmentPairOut.getPersonsList())) < 0 &&
-                            getAverageSalary(list).compareTo(getAverageSalary(departmentPairIn.getPersonsList())) > 0) {
-
+                    if (getAverageSalary(list).compareTo(getAverageSalary(departmentPairIn.getPersonsList())) > 0)
                         addVariant(departmentPairOut, departmentPairIn, list);
-                    }
                 }
             }
         }
@@ -76,12 +85,15 @@ public class CalculateVariants {
 
     // finalList - это все сотрудники определенного отдела (неизменяемый список сотрудников)
     // allVariantsOfLists - это список всех наборов сотрудников определенного отдела
-    private static void recursionSearch(List<Person> finalList, int start, List<Person> list){
+    private static List<List<Person>> recursionSearch(List<Person> finalList, int start, List<Person> list, BigDecimal averageSalaryOut){
+        List<List<Person>> allVariantsOfLists = new ArrayList<>();
         for (int i = start; i < finalList.size(); i++) {
             List<Person> nowList = new ArrayList<>(list);
             nowList.add(finalList.get(i));
-            allVariantsOfLists.add(nowList);
-            recursionSearch(finalList, i + 1, nowList);
+            if (getAverageSalary(nowList).compareTo(averageSalaryOut) < 0)
+                allVariantsOfLists.add(nowList);
+            allVariantsOfLists.addAll(recursionSearch(finalList, i + 1, nowList, averageSalaryOut));
         }
+        return allVariantsOfLists;
     }
 }

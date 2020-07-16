@@ -22,4 +22,12 @@ public class Department {
     public void addPerson(Person person) {
         list.add(person);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (Person person : list)
+            stringBuilder.append(person.toString()).append("\r\n");
+        return stringBuilder.toString();
+    }
 }

@@ -2,8 +2,8 @@
 
 Вариант 1:
 Сотрудники: 
-Имя: Ivanov Ivan Ivanovich, Зарплата: 30000.00
- из отдела Financial могут быть перемещены в отдел Support
+Имя: Ivanov Ivan Ivanovich, Зарплата: 30000
+Из отдела Financial могут быть перемещены в отдел Support
 Средняя зарплата до перемещения
 В отделе Financial: 32500.11
 В отделе Support: 29000.00
@@ -13,10 +13,10 @@
 
 Вариант 2:
 Сотрудники: 
-Имя: Ivanov Ivan Ivanovich, Зарплата: 30000.00
-Имя: Sidorov Petr Mihailovich, Зарплата: 12000.00
+Имя: Ivanov Ivan Ivanovich, Зарплата: 30000
+Имя: Sidorov Petr Mihailovich, Зарплата: 12000
 Имя: Kolesnikova Irina Alexandrovna, Зарплата: 50000.45
- из отдела Financial могут быть перемещены в отдел Support
+Из отдела Financial могут быть перемещены в отдел Support
 Средняя зарплата до перемещения
 В отделе Financial: 32500.11
 В отделе Support: 29000.00
@@ -26,9 +26,9 @@
 
 Вариант 3:
 Сотрудники: 
-Имя: Sidorov Petr Mihailovich, Зарплата: 12000.00
+Имя: Sidorov Petr Mihailovich, Зарплата: 12000
 Имя: Kolesnikova Irina Alexandrovna, Зарплата: 50000.45
- из отдела Financial могут быть перемещены в отдел Support
+Из отдела Financial могут быть перемещены в отдел Support
 Средняя зарплата до перемещения
 В отделе Financial: 32500.11
 В отделе Support: 29000.00
@@ -38,8 +38,8 @@
 
 Вариант 4:
 Сотрудники: 
-Имя: Ivanov Ivan Ivanovich, Зарплата: 30000.00
- из отдела Financial могут быть перемещены в отдел IT
+Имя: Ivanov Ivan Ivanovich, Зарплата: 30000
+Из отдела Financial могут быть перемещены в отдел IT
 Средняя зарплата до перемещения
 В отделе Financial: 32500.11
 В отделе IT: 26500.00
@@ -49,10 +49,10 @@
 
 Вариант 5:
 Сотрудники: 
-Имя: Ivanov Ivan Ivanovich, Зарплата: 30000.00
-Имя: Sidorov Petr Mihailovich, Зарплата: 12000.00
-Имя: Klokov Ilia Vladimirovich, Зарплата: 38000.00
- из отдела Financial могут быть перемещены в отдел IT
+Имя: Ivanov Ivan Ivanovich, Зарплата: 30000
+Имя: Sidorov Petr Mihailovich, Зарплата: 12000
+Имя: Klokov Ilia Vladimirovich, Зарплата: 38000
+Из отдела Financial могут быть перемещены в отдел IT
 Средняя зарплата до перемещения
 В отделе Financial: 32500.11
 В отделе IT: 26500.00
@@ -62,10 +62,10 @@
 
 Вариант 6:
 Сотрудники: 
-Имя: Ivanov Ivan Ivanovich, Зарплата: 30000.00
-Имя: Sidorov Petr Mihailovich, Зарплата: 12000.00
+Имя: Ivanov Ivan Ivanovich, Зарплата: 30000
+Имя: Sidorov Petr Mihailovich, Зарплата: 12000
 Имя: Kolesnikova Irina Alexandrovna, Зарплата: 50000.45
- из отдела Financial могут быть перемещены в отдел IT
+Из отдела Financial могут быть перемещены в отдел IT
 Средняя зарплата до перемещения
 В отделе Financial: 32500.11
 В отделе IT: 26500.00
@@ -75,9 +75,9 @@
 
 Вариант 7:
 Сотрудники: 
-Имя: Sidorov Petr Mihailovich, Зарплата: 12000.00
+Имя: Sidorov Petr Mihailovich, Зарплата: 12000
 Имя: Kolesnikova Irina Alexandrovna, Зарплата: 50000.45
- из отдела Financial могут быть перемещены в отдел IT
+Из отдела Financial могут быть перемещены в отдел IT
 Средняя зарплата до перемещения
 В отделе Financial: 32500.11
 В отделе IT: 26500.00

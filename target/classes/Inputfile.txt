@@ -7,7 +7,8 @@ Varlamov Ilia Dmitrievich; Support; 29000
 Shevchenko; IT; 10000
 Ibragimov; IT
 Petrov Petr Petrovich; 20000
-Kolesnikova Irina Alexandrovna; Financial; 50000.453432
+Kolesnikova Irina Alexandrovna; Financial; 50000.45
+Kolesnikova Irina Alexandrovna; Financial; 50000.45435345
 ivanov; fedor; IT; 3000
 Kochergin; Support; -23000
 Kochergin; Support; er

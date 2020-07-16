@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 public class ReadFile {
@@ -17,8 +16,8 @@ public class ReadFile {
     private static Person createPerson(String[] info){
         BigDecimal salary;
         try {
-            salary = new BigDecimal(info[info.length - 1].trim()).setScale(2, RoundingMode.HALF_UP);
-            if (salary.compareTo(BigDecimal.ZERO) < 0)
+            salary = new BigDecimal(info[info.length - 1].trim());
+            if (salary.compareTo(BigDecimal.ZERO) < 0 || salary.scale() > 2)
                 throw new NumberFormatException();
         }
         catch (NumberFormatException e){
@@ -72,6 +71,23 @@ public class ReadFile {
             return null;
         }
 
-        return new ArrayList<>(allMaps.values());
+        List<Department> allLists = new ArrayList<>(allMaps.values());
+        printDepartmentList(allLists);
+        return allLists;
+    }
+
+    private static void printDepartmentList(List<Department> listDep){
+        System.out.println("\n\tИНФОРМАЦИЯ О СЧИТАННЫХ ОТДЕЛАХ");
+        StringBuilder listStr = new StringBuilder();
+        for (Department dep : listDep) {
+            listStr.append("\nСредняя зарплата в отделе ").
+                    append(dep.getDepartmentName()).
+                    append(": ").
+                    append(CalculateVariants.getAverageSalary(dep.getPersonsList())).
+                    append("\nСостав отдела: ").
+                    append(dep.getDepartmentName()).
+                    append(dep.toString());
+        }
+        System.out.println(listStr.toString());
     }
 }
